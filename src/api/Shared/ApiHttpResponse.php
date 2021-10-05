@@ -2,7 +2,7 @@
 
 namespace Api\Shared;
 
-class ApiHttpException
+class ApiHttpResponse
 {
   const KEY_CODE   = "code";
   const KEY_MESSAGE = "message";
@@ -46,8 +46,8 @@ class ApiHttpException
   public function buildInternalError()
   {
     $this->body = [
-      ApiHttpException::KEY_CODE    => 500,
-      ApiHttpException::KEY_MESSAGE => 'Some error occurred on the server.'
+      ApiHttpResponse::KEY_CODE    => 500,
+      ApiHttpResponse::KEY_MESSAGE => "Some error occurred on the server."
     ];
 
     $this->code = 500;
@@ -56,15 +56,32 @@ class ApiHttpException
     return $this;
   }
 
+  /**
+   * @return $this
+   */
   public function build404()
   {
     $this->body = [
-      ApiHttpException::KEY_CODE    => 404,
-      ApiHttpException::KEY_MESSAGE => 'URI not found or error in request.'
+      ApiHttpResponse::KEY_CODE    => 404,
+      ApiHttpResponse::KEY_MESSAGE => "URI not found or error in request."
     ];
 
     $this->code = 404;
     $this->message = "Not Found";
+
+    return $this;
+  }
+
+  /**
+   * @param $result
+   * @return $this
+   */
+  public function buildContent($result)
+  {
+    $this->body = $result;
+
+    $this->code = 200;
+    $this->message = "OK";
 
     return $this;
   }

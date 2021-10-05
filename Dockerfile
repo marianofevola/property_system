@@ -5,7 +5,7 @@ WORKDIR /var/www/property_system
 
 # Install extensions
 RUN apt-get update \
-&& apt-get -y --no-install-recommends install  php7.2-mysql php-xdebug php7.2-bcmath php7.2-bz2 php7.2-gd php7.2-intl php-ssh2 php7.2-xsl php-yaml zip unzip php-zip \
+&& apt-get -y --no-install-recommends install zip unzip \
 && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Install phalcon
@@ -18,6 +18,9 @@ RUN apt-get update \
 && apt-get -y install git \
 && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
+# Install mysqli
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+
 # Install Phalcon
 WORKDIR /usr/local/src
 RUN git clone https://github.com/phalcon/cphalcon.git --branch v3.3.1 --single-branch
@@ -28,14 +31,12 @@ WORKDIR /etc/php7/mods-available
 RUN echo 'extension=phalcon.so' >> phalcon.ini
 RUN docker-php-ext-enable phalcon
 
+# install yaml
+RUN apt-get -y update && apt-get -y install libyaml-dev && printf "\n" | pecl install yaml-2.0.0
 
-# Phalcon dev tools
-RUN rm -rf ~/phalcon-devtools
-RUN cd ~  && git clone git://github.com/phalcon/phalcon-devtools.git \
-&& cd phalcon-devtools/ && ./phalcon.sh \
-&& ln -s ~/phalcon-devtools/phalcon.php /usr/bin/phalcon  \
-#&& chmod ugo+x /usr/bin/phalcon
-
+#RUN apt-get install libyaml-dev && printf "\n" | pecl install yaml-2.0.0
+RUN echo 'extension=yaml.so' >> yaml.ini
+RUN docker-php-ext-enable yaml
 
 # Install composer
 WORKDIR /tmp
