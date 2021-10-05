@@ -6,6 +6,7 @@ class ApiHttpResponse
 {
   const KEY_CODE   = "code";
   const KEY_MESSAGE = "message";
+  const KEY_ERROR_MESSAGE = "error_message";
 
   /** @var integer */
   private $code;
@@ -101,10 +102,35 @@ class ApiHttpResponse
     return $this;
   }
 
+  /**
+   * @return $this
+   */
   public function buildNoContent()
   {
     $this->code = 204;
     $this->message = "No Content";
+
+    return $this;
+  }
+
+  /**
+   * @param array $errors
+   * @return $this
+   */
+  public function buildErrors(array $errors)
+  {
+    $message = [];
+    foreach ($errors as $error)
+    {
+      $message[] = $error->getMessage();
+    }
+
+    $this->body = [
+      ApiHttpResponse::KEY_CODE    => 400,
+      ApiHttpResponse::KEY_ERROR_MESSAGE => $message
+    ];
+    $this->code = 400;
+    $this->message = "Bad Request";
 
     return $this;
   }

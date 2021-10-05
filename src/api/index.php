@@ -66,6 +66,9 @@ $propertyCollection->get("/list", "listAction");
 $propertyCollection->get("/list/{pageNo:[0-9]+}/{perPage:[0-9]+}", "listAction");
 /** @see \Api\Controllers\PropertyController::deleteAction() */
 $propertyCollection->delete("/{id:[0-9]+}", "deleteAction");
+/** @see \Api\Controllers\PropertyController::addAction() */
+$propertyCollection->post("/", "addAction");
+$propertyCollection->put("/", "addAction");
 $app->mount($propertyCollection);
 
 $app->notFound(function () use ($app)
