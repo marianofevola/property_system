@@ -23,10 +23,53 @@ class PropertyController extends Injectable
   {
     $properties = $this
       ->propertyRepository
-      ->getProperties($pageNo, $perPage);
+      ->find($pageNo, $perPage);
 
     $response = new ApiHttpResponse();
     $response->buildContent($properties);
+    $this
+      ->response
+      ->setStatusCode($response->getCode(), $response->getMessage())
+      ->setJsonContent($response->getBody())
+      ->send();
+  }
+
+  /**
+   * @param $id
+   */
+  public function deleteAction($id)
+  {
+    $property = $this
+      ->propertyRepository
+      ->get($id);
+
+    $response = new ApiHttpResponse();
+
+    if (!$property->toArray())
+    {
+      $response->buildBadRequest();
+      $this
+        ->response
+        ->setStatusCode($response->getCode(), $response->getMessage())
+        ->setJsonContent($response->getBody())
+        ->send();
+
+      return;
+    }
+
+    if ($property->delete())
+    {
+      $response->buildNoContent();
+      $this
+        ->response
+        ->setStatusCode($response->getCode(), $response->getMessage())
+        ->setJsonContent($response->getBody())
+        ->send();
+
+      return;
+    }
+
+    $response->buildInternalError();
     $this
       ->response
       ->setStatusCode($response->getCode(), $response->getMessage())

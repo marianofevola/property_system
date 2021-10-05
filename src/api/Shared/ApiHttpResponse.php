@@ -85,4 +85,27 @@ class ApiHttpResponse
 
     return $this;
   }
+
+  /**
+   * @return $this
+   */
+  public function buildBadRequest()
+  {
+    $this->body = [
+      ApiHttpResponse::KEY_CODE    => 400,
+      ApiHttpResponse::KEY_MESSAGE => "Invalid request provided."
+    ];
+    $this->code = 400;
+    $this->message = "Bad Request";
+
+    return $this;
+  }
+
+  public function buildNoContent()
+  {
+    $this->code = 204;
+    $this->message = "No Content";
+
+    return $this;
+  }
 }
