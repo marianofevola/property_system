@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./.. # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    container_name: property_system-php
+    restart: unless-stopped
+    volumes:
+      - ./../:/var/www/property_system
+    links:
+      - mysql:mysql
+    networks:
+      - property-system-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: property_system-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./../:/var/www/property_system
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    links:
+      - php
+    networks:
+      - property-system-net
+
+  mysql:
+    image: mysql
+    container_name: property_system-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: "property_system"
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3308:3306"
+    networks:
+      - property-system-net
+
+networks:
+  property-system-net:
+    driver: "bridge"

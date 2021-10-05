@@ -1,0 +1,23 @@
+{
+    "name": "marianofevola/property_system",
+    "type": "project",
+    "description": "The property system project.",
+    "keywords": [
+        "property management",
+        "letting agents"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8",
+        "phalcon/devtools": "dev-master"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Api\\": "api/"
+        }
+    },
+    "minimum-stability": "dev"
+}
