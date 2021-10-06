@@ -1,5 +1,19 @@
 Property System
+-----------------
+Usage:
+- run `docker-compose up`. It will take some time to build the phalcon C-extension https://docs.phalcon.io/4.0/en/introduction;
+- please execute the database schemas present in infrastructure/sql/schema.sql and add some agents manually (didn't have time to do migrations and seeds)
+- the apis are located at http://127.0.0.1:83, postman json file with thee api definition is PropertySystem.postman_collection.json
+- to run the import task use this command: `docker exec property_system-php /bin/sh -c "cd /var/www/property_system/src/cli; ENV=DEV php cli.php import"`. The properties dictionary is located in `src/cli/data.json`
 
+still to do:
+- unit tests and tweaks to the api endpoint to get the top agents
+- add db migrations and seeds
+- migrate db directly on docker-compose up
+- move http codes into constants 
+
+-----------------
+Description:
 This task is to test your knowledge of PHP, MySQL & Javascript, not of HTML or any
 frameworks specifically. You are welcome to use any 3rd party libraries.
 

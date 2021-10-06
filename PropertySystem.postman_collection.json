@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "82d9d2b2-cea2-4857-8ea9-4ebae77ce0a9",
+		"name": "Property System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get properties",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:83/property/list",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"property",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get agents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:83/property/list",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"property",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Top agents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:83/agent/top",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"agent",
+						"top"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add property",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Blue Sky",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "275000",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "detached",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:83/property",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"property"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add agent to property",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "agent_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "property_id",
+							"value": "114",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:83/agent/property",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"agent",
+						"property"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update property",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Blue Sky",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "detached",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "300000",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:83/property",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"property"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete property",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:83/property/1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "83",
+					"path": [
+						"property",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
