@@ -1,0 +1,44 @@
+[
+  {
+    "name": "The Cottage",
+    "price": 423000,
+    "type": "detached",
+    "created": "2021-10-05 17:12:10"
+  },
+  {
+    "name": "Orchard House",
+    "price": 230000,
+    "type": "attached",
+    "created": "2021-10-05 17:12:36"
+  },
+  {
+    "name": "School House",
+    "price": 300000,
+    "type": "detached",
+    "created": "2021-10-05 17:12:58"
+  },
+  {
+    "name": "The Coach House",
+    "price": 600000,
+    "type": "detached",
+    "created": "2021-10-05 17:13:21"
+  },
+  {
+    "name": "Hillcrest",
+    "price": 290000,
+    "type": "flat",
+    "created": "2021-10-05 17:13:47"
+  },
+  {
+    "name": "Tudor House",
+    "price": 450000,
+    "type": "attached",
+    "created": "2021-10-05 17:19:32"
+  },
+  {
+    "name": "The Barn",
+    "price": 205000,
+    "type": "flat",
+    "created": "2021-10-05 17:19:53"
+  }
+]
