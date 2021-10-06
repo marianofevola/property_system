@@ -2,6 +2,10 @@
 
 use Phalcon\Cli\Task;
 
+/**
+ * Usage: ENV=dev php cli/cli.php import
+ * Class ImportTask
+ */
 class ImportTask extends Task
 {
   public function mainAction()
@@ -40,7 +44,7 @@ function doCurlCall($property)
 
   $ch = curl_init();
 
-  curl_setopt($ch, CURLOPT_URL,"http://172.28.1.3/property");
+  curl_setopt($ch, CURLOPT_URL,"http://172.28.1.3:83/property");
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS,
     "name=$name&price=$price&type=$type");

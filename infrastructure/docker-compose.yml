@@ -37,6 +37,7 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "83:83"
     volumes:
       - ./../:/var/www/property_system
       - ./nginx/conf.d/:/etc/nginx/conf.d/

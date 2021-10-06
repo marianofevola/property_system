@@ -2,6 +2,7 @@
 
 namespace Api\Repositories;
 
+use Api\Exceptions\PropertyNotAvailableException;
 use Api\Models\Property;
 use Phalcon\Di\Injectable;
 
@@ -67,6 +68,7 @@ class PropertyRepository extends Injectable
   /**
    * @param Property $property
    * @return array
+   * @throws PropertyNotAvailableException
    */
   public function update(Property $property)
   {
@@ -80,6 +82,11 @@ class PropertyRepository extends Injectable
       // get the property by name
       $existingProperty = $this
         ->getByName($property->name);
+    }
+
+    if (!$existingProperty)
+    {
+      throw new PropertyNotAvailableException();
     }
 
     $isChanged = false;

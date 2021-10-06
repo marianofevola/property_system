@@ -2,6 +2,7 @@
 
 namespace Api\Controllers;
 
+use Api\Exceptions\PropertyNotAvailableException;
 use Api\Models\Property;
 use Api\Shared\ApiHttpResponse;
 use Phalcon\Di\Injectable;
@@ -45,7 +46,7 @@ class PropertyController extends Injectable
 
     $response = new ApiHttpResponse();
 
-    if (!$property->toArray())
+    if (!$property || !$property->toArray())
     {
       $response->buildBadRequest();
       $this
@@ -174,12 +175,23 @@ class PropertyController extends Injectable
   private function update(Property $property)
   {
     $response = new ApiHttpResponse();
-
+// docker exec property_system-php /bin/sh -c "cd /var/www/property_system/src/cli; ENV=DEV php cli.php import"
     try
     {
       list($isChanged, $updatedProperty) = $this
         ->propertyRepository
         ->update($property);
+    }
+    catch (PropertyNotAvailableException $ex)
+    {
+      $response->buildBadRequest();
+      $this
+        ->response
+        ->setStatusCode($response->getCode(), $response->getMessage())
+        ->setJsonContent($response->getBody())
+        ->send();
+
+      return;
     }
     catch (\Exception $ex)
     {
