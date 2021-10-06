@@ -79,6 +79,8 @@ $agentCollection->setPrefix("/agent");
 $agentCollection->get("/list", "listAction");
 /** @see \Api\Controllers\AgentController::linkPropertyAction() */
 $agentCollection->post("/property", "linkPropertyAction");
+/** @see \Api\Controllers\AgentController::listTopAgentsAction() */
+$agentCollection->get("/top", "listTopAgentsAction");
 $app->mount($agentCollection);
 
 $app->notFound(function () use ($app)

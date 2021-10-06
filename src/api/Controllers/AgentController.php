@@ -54,7 +54,70 @@ class AgentController extends Injectable
       ->response
       ->setStatusCode($response->getCode(), $response->getMessage())
       ->send();
+  }
 
+  public function listTopAgentsAction()
+  {
+    $response = new ApiHttpResponse();
+    $result = $this
+      ->agentRepository
+      ->findAgentsByPropertyId();
+
+    $data = [];
+    foreach ($result as $agentIds)
+    {
+      $data[$agentIds["property_id"]] = explode(",",$agentIds["agents"]);
+    }
+
+    // remove properties with only one agent associated
+    $data = array_filter($data, function ($datum) {
+      return count($datum) > 1;
+    });
+
+    $previous = [];
+    $level = 1;
+    $next = [];
+    // todo test and improve
+    foreach ($data as $propertyId => $agents)
+    {
+      if (empty($previous))
+      {
+        $previous = $agents;
+        continue;
+      }
+
+      $test = array_intersect($previous, $agents);
+      if (!empty($test))
+      {
+        $next[$level] = $test;
+      }
+      $level++;
+    }
+
+    if (count($next) == 1)
+    {
+      $response = $response->buildContent([]);
+      $this
+        ->response
+        ->setStatusCode($response->getCode(), $response->getMessage())
+        ->send();
+    }
+
+    // remove first level where agents have only 1 property in common with 1/2 agents
+    unset($next[1]);
+    $next = array_reverse($next);
+
+    // get Agents
+    $topAgents = $this
+      ->agentRepository
+      ->findByIds($next);
+
+    $response = $response->buildContent($topAgents);
+    $this
+      ->response
+      ->setJsonContent($response->getBody())
+      ->setStatusCode($response->getCode(), $response->getMessage())
+      ->send();
   }
 
 }
