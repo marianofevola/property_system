@@ -175,7 +175,7 @@ class PropertyController extends Injectable
   private function update(Property $property)
   {
     $response = new ApiHttpResponse();
-// docker exec property_system-php /bin/sh -c "cd /var/www/property_system/src/cli; ENV=DEV php cli.php import"
+
     try
     {
       list($isChanged, $updatedProperty) = $this

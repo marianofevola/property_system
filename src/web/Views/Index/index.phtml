@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <title>Property System - Admin Area</title>
+</head>
+<body>
+<h1>Link agent to a property</h1>
+Agent:
+<select name="agent" id="agent"></select>
+<p></p>
+Property:
+<select name="property" id="property"></select>
+<p></p>
+Role:
+<select name="role" id="role">
+  <option value="viewing">viewing</option>
+  <option value="selling">selling</option>
+</select>
+<p></p>
+<button onclick="sendData()">Link!</button>
+</body>
+</html>
+
+<script src="js/jquery-3.5.1.js"></script>
+
+<script>
+  var url = 'http://localhost:83/property/list';
+  $.getJSON(url, function (data) {
+    $.each(data, function (key, property) {
+      $("<option value='" + property.id + "'>" + property.name + "</option>").appendTo('#property')
+    });
+  });
+
+  var agentsUrl = 'http://localhost:83/agent/list';
+  $.getJSON(agentsUrl, function (data) {
+    $.each(data, function (key, agent) {
+      console.log(data);
+      $("<option value='" + agent.id + "'>" + agent.first_name + " " + agent.last_name + "</option>").appendTo('#agent')
+    });
+  });
+
+  function sendData() {
+
+    let url = 'http://localhost:83/agent/property';
+
+    let agentId = +$('#agent option:selected').val();
+    let propertyId = +$('#property option:selected').val();
+    if (agentId.isNaN) {
+      alert('unknown agentId provided');
+      return;
+    }
+    if (propertyId.isNaN) {
+      alert('unknown propertyId provided');
+      return;
+    }
+    let role = $('#role option:selected').val();
+    if (role !== 'viewing' && role !== 'selling') {
+      alert('unknown role provided');
+      return;
+    }
+    let request = $.ajax({
+      url: url,
+      data: {agent_id: agentId, property_id: propertyId, role: role},
+      method: 'POST',
+      crossDomain: true,
+      type: 'json'
+    });
+
+    // Callback handler that will be called on failure
+    request.fail(function (jqXHR, textStatus, errorThrown){
+      if (errorThrown === 'Bad Request') {
+        alert(jqXHR.responseJSON.error_message[0]);
+      } else {
+        // tricky
+        alert('agent correctly associated to the property!');
+      }
+    });
+  }
+</script>

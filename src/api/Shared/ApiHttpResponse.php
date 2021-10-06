@@ -114,6 +114,17 @@ class ApiHttpResponse
   }
 
   /**
+   * @return $this
+   */
+  public function buildCreated()
+  {
+    $this->code = 201;
+    $this->message = "Created";
+
+    return $this;
+  }
+
+  /**
    * @param array $errors
    * @return $this
    */

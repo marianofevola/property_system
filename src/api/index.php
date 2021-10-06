@@ -21,6 +21,8 @@ $di
   {
     $response = new Response();
     $response->setContentType("application/json", "utf-8");
+    $response->setHeader("Access-Control-Allow-Origin", "*");
+    $response->setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
     return $response;
   });
 
@@ -47,16 +49,15 @@ $di->set(
   }
 );
 
-$app->setDI($di);
+$di->set(
+  'agentRepository',
+  function ()
+  {
+    return new \Api\Repositories\AgentRepository($this);
+  }
+);
 
-// Define the routes here
-//$app->get(
-//  '/v1/properties/{pageNo:[0-9]+}/{perPage:[0-9]+}',
-//  function ($pageNo, $perPage)
-//  {
-//    echo "called " . $perPage . $pageNo;
-//  }
-//);
+$app->setDI($di);
 
 $propertyCollection = new Micro\Collection();
 $propertyCollection->setHandler(\Api\Controllers\PropertyController::class, true);
@@ -70,6 +71,15 @@ $propertyCollection->delete("/{id:[0-9]+}", "deleteAction");
 $propertyCollection->post("/", "addAction");
 $propertyCollection->put("/", "addAction");
 $app->mount($propertyCollection);
+
+$agentCollection = new Micro\Collection();
+$agentCollection->setHandler(\Api\Controllers\AgentController::class, true);
+$agentCollection->setPrefix("/agent");
+/** @see \Api\Controllers\AgentController::listAction() */
+$agentCollection->get("/list", "listAction");
+/** @see \Api\Controllers\AgentController::linkPropertyAction() */
+$agentCollection->post("/property", "linkPropertyAction");
+$app->mount($agentCollection);
 
 $app->notFound(function () use ($app)
 {

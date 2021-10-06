@@ -12,7 +12,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Api\\": "api/"
+            "Api\\": "api/",
+            "Web\\": "web/"
         }
     },
     "minimum-stability": "dev"
